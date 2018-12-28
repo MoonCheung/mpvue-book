@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/books/main",
+    "pages/comments/main",
+    "pages/me/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#EA5149",
+    "navigationBarTitleText": "My图书馆",
+    "navigationBarTextStyle": "light"
+  },
+  "tabBar": {
+    "backgroundColor": "white",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/books/main",
+        "text": "图书",
+        "iconPath": "static/images/book.png",
+        "selectedIconPath": "static/images/book-active.png"
+      },
+      {
+        "pagePath": "pages/comments/main",
+        "text": "评论",
+        "iconPath": "static/images/todo.png",
+        "selectedIconPath": "static/images/todo-active.png"
+      },
+      {
+        "pagePath": "pages/me/main",
+        "text": "我",
+        "iconPath": "static/images/me.png",
+        "selectedIconPath": "static/images/me-active.png"
+      }
+    ]
+  }
+}
