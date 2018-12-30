@@ -5,7 +5,10 @@
 const host = '127.0.0.1:5757'
 
 const config = {
-  host
+  host,
+  loginUrl:`${host}/weapp/login`
 }
 // 输出
-export default config
+export {
+  config
+}
