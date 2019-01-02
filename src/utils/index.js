@@ -50,7 +50,7 @@ export function post(url, data){
 export function showModal (title, content) {
   wx.showModal({
     title,
-    content,
+    content: JSON.stringify(content),
     showCancel: false
   })
 }
