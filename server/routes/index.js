@@ -36,4 +36,7 @@ router.post('/message', controllers.message.post)
 // 演示API
 router.get('/index', controllers.demo);
 
+// 从豆瓣图书获取信息接口
+router.post('/addbook', controllers.addbook);
+
 module.exports = router

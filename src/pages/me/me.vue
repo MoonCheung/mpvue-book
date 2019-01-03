@@ -2,12 +2,12 @@
   <div class="container">
     <div class="userinfo">
       <img :src="logged?userinfo.avatarUrl : '/static/images/unlogin.png'" alt="" >
-      <!-- <p>{{userinfo.nickName}}</p> -->
       <!-- 需要使用 button 来授权登录 -->
       <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="doLogin">{{logged?userinfo.nickName : '点击登录'}}</button>
     </div>
+    <YearProgress></YearProgress>
 
-    <button>添加图书</button>
+    <button v-if='userinfo.openId' class="btn" @click="scanCode">添加图书</button>
   </div>
 </template>
 
@@ -15,13 +15,23 @@
 import qcloud from 'wafer2-client-sdk'
 import { config } from '@/utils/config'
 import { showSuccess, post, showModal } from '@/utils/index'
+import YearProgress from '@/components/YearProgress'
 
 export default {
+  components: {
+    YearProgress
+  },
   data () {
     return {
       userinfo: {},
       logged: false
     }
+  },
+  onShow(){
+    let that = this;
+    let userinfo = wx.getStorageSync('userinfo');
+    that.userinfo = userinfo;
+    that.logged = true;
   },
   // 方法将被混入到 Vue 实例中。
   methods: {
@@ -53,13 +63,30 @@ export default {
           }
         })
       }
-
-
+    },
+    //增加书籍
+    async addBook(isbn){
+      console.log(isbn);
+      const res = await post('/api/addbook', {
+        isbn,
+        openid: this.userinfo.openId
+      })
+    },
+    //扫描书籍条码
+    canBook(){
+      wx.scanCode({
+        success: (res) => {
+          if(res.result){
+            this.addBook(res.result);
+          }
+        }
+      })
     }
   },
   // 被新创建方法替换，并挂载到实例上去之后调用该钩子。
   mounted () {
     this.doLogin();
+    this.canBook();
   }
 }
 </script>
