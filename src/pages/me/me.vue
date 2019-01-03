@@ -71,6 +71,7 @@ export default {
         isbn,
         openid: this.userinfo.openId
       })
+      showModal('添加成功', `${res.title}录入数据`)
     },
     //扫描书籍条码
     canBook(){
