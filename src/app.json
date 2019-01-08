@@ -2,13 +2,16 @@
   "pages": [
     "pages/books/main",
     "pages/me/main",
-    "pages/comments/main"
+    "pages/comments/main",
+    "pages/detail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#EA5149",
     "navigationBarTitleText": "My图书馆",
-    "navigationBarTextStyle": "light"
+    "navigationBarTextStyle": "light",
+    "enablePullDownRefresh": true,
+    "onReachBottomDistance": 50
   },
   "tabBar": {
     "backgroundColor": "white",

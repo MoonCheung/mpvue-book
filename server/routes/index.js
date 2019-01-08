@@ -40,5 +40,7 @@ router.get('/index', controllers.demo);
 router.post('/addbook', controllers.addbook);
 // 豆瓣图书列表
 router.get('/booklist', controllers.booklist);
+// 豆瓣图书详细页
+router.get('/bookdetail', controllers.bookdetail);
 
 module.exports = router
