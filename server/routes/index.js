@@ -38,5 +38,7 @@ router.get('/index', controllers.demo);
 
 // 从豆瓣图书获取信息接口
 router.post('/addbook', controllers.addbook);
+// 豆瓣图书列表
+router.get('/booklist', controllers.booklist);
 
 module.exports = router
