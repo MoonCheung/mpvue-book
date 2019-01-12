@@ -1,5 +1,6 @@
 <template>
   <div>
+    <TopSwiper :tops="tops" ></TopSwiper>
     <card v-for="book in books" :key="book.id" :book="book"></card>
     <p class="text-footer" v-if="!more">
       没有更多数据！
@@ -10,16 +11,19 @@
 <script>
 import { get } from '@/utils/index'
 import Card from '@/components/Card'
+import TopSwiper from '@/components/TopSwiper'
 
 export default {
   components: {
-    Card
+    Card,
+    TopSwiper
   },
   data () {
     return {
       books: [],
       page: 0,
-      more: true
+      more: true,
+      tops: []
     }
   },
   onPullDownRefresh(){
@@ -53,9 +57,14 @@ export default {
       }
       wx.hideNavigationBarLoading();
     },
+    async getTop(){
+      const tops = await get('/api/top')
+      this.tops = tops.list
+    }
   },
   mounted () {
     this.getList(true);
+    this.getTop()
   }
 }
 </script>

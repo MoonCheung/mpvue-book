@@ -1,7 +1,7 @@
 <template>
   <a :href="detailUrl">
     <div class="book-card">
-      <div class="thumb">
+      <div class="thumb" @click.stop="preview">
         <img :src="book.image" class="img" mode="aspectFit" >
       </div>
       <div class="detail">
@@ -14,8 +14,8 @@
           </div>
         </div>
         <div class="row">
-          <div class="right">
-            浏览量
+          <div class="right text-primary">
+            浏览量: {{book.count}}
           </div>
           <div class="left">
             {{book.author}}
@@ -47,6 +47,14 @@ export default {
       return '/pages/detail/main?id='+this.book.id
     }
   },
+  methods: {
+    preview(){
+      wx.previewImage({
+        current: this.book.image,  // 当前显示图片的http链接
+        urls: [this.book.image]    // 需要预览的图片http链接列表
+      })
+    }
+  }
 
 }
 </script>
