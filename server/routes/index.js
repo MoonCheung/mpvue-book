@@ -44,5 +44,9 @@ router.get('/booklist', controllers.booklist);
 router.get('/bookdetail', controllers.bookdetail);
 // 豆瓣图书Top
 router.get('/top', controllers.top);
+// 豆瓣图书评论
+router.post('/addcomment', controllers.addcomment);
+// 豆瓣图书评论列表
+router.get('/commentlist', controllers.commentlist);
 
 module.exports = router

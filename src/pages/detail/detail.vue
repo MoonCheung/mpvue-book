@@ -1,7 +1,8 @@
 <template>
   <div>
     <BookInfo :info="info" ></BookInfo>
-    <div class="comment">
+    <CommentList :comments="comments" ></CommentList>
+    <div class="comment" v-if="showAdd">
       <textarea v-model="comment"
                 class="textarea"
                 :maxlength="100"
@@ -17,20 +18,29 @@
         <switch color="#EA5A49" :checked="phone" @change="getPhone" ></switch>
         <span class="text-primary">{{ phone }}</span>
       </div>
+      <button class="btn" @click="addComment">评论</button>
     </div>
+    <div v-else class="text-footer">
+      未登录或者已经评论过
+    </div>
+    <button open-type="share" class="btn">转发给好友</button>
   </div>
 </template>
 
 <script>
-import { get } from '@/utils/index'
+import { get, post, showModal } from '@/utils/index'
 import BookInfo from '@/components/BookInfo'
+import CommentList from '@/components/CommentList'
 
 export default {
   components: {
-    BookInfo
+    BookInfo,
+    CommentList
   },
   data () {
     return {
+      comments: [],
+      userinfo: {},
       bookid: '',
       info: {},
       comment: '',
@@ -38,7 +48,43 @@ export default {
       phone: ''
     }
   },
+  onShareAppMessage(res){
+    console.log(res);
+  },
+  //计算属性
+  computed: {
+    showAdd(){
+      //没登录
+      if(!this.userinfo.openId) { return false; }
+      if(this.comments.filter(v => v.openid === this.userinfo.openId).length){
+        return false;
+      }
+      return true;
+    }
+  },
   methods: {
+    async addComment(){
+      if(!this.comment) { return true; }
+      const data = {
+        openid: this.userinfo.openId,
+        bookid: this.bookid,
+        comment: this.comment,
+        location: this.location,
+        phone: this.phone
+      }
+      console.log(data);
+      try{
+        await post('/api/addcomment', data);
+        this.comment = '' //空评论
+        this.getComments()
+      }catch(e){
+        showModal('失败', e.msg) //有短暂性bug
+      }
+    },
+    async getComments(){
+      const comments = await get('/api/commentlist', {bookid: this.bookid})
+      this.comments = comments.list || [];
+    },
     async getDtail(){
       const info = await get('/api/bookdetail', {id: this.bookid})
       wx.setNavigationBarTitle({
@@ -88,6 +134,9 @@ export default {
   mounted () {
     this.bookid = this.$root.$mp.query.id;
     this.getDtail();
+    this.getComments();
+    const userinfo = wx.getStorageSync('userinfo');
+    if(userinfo){ return this.userinfo = userinfo; };
   }
 }
 </script>
