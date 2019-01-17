@@ -3,7 +3,10 @@
     <div class="page-title" v-if="comments.length">
       评价:
     </div>
-    <div class="comment" v-for="item in comments" :key="item.id">
+    <div class="comment"
+      v-for="item in comments"
+      :key="item.id"
+      @click="handleClick(item)">
       <div class="user">
         <div class="inline">
           <img class="avatar" :src="item.image" mode="aspectFit">
@@ -24,7 +27,16 @@
 
 <script>
 export default {
-  props: ['comments']
+  props: ['comments','type'],
+  methods: {
+    handleClick(item){
+      if(this.type === 'user'){
+        wx.navigateTo({
+          url: '/pages/detail/main?id='+item.bookid
+        })
+      }
+    }
+  }
 }
 </script>
 

@@ -78,7 +78,7 @@ export default {
         this.comment = '' //空评论
         this.getComments()
       }catch(e){
-        showModal('失败', e.msg) //有短暂性bug
+        showModal('失败', e.msg)
       }
     },
     async getComments(){
