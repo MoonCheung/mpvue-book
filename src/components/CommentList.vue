@@ -1,7 +1,7 @@
 <template>
   <div class="comment-list">
     <div class="page-title" v-if="comments.length">
-      评价:
+      评价
     </div>
     <div class="comment"
       v-for="item in comments"
