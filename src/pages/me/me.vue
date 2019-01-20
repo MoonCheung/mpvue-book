@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <div class="userinfo">
-      <img :src="logged?userinfo.avatarUrl : '/static/images/unlogin.png'" alt="" >
+      <img :src="logged?userinfo.avatarUrl : '/static/images/unlogin.png'">
       <!-- 需要使用 button 来授权登录 -->
       <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="doLogin">{{logged?userinfo.nickName : '点击登录'}}</button>
     </div>
     <YearProgress></YearProgress>
 
-    <button v-if='userinfo.openId' class="btn" @click="scanCode">添加图书</button>
+    <button v-if='userinfo.openId' class="btn" @click="canBook">添加图书</button>
   </div>
 </template>
 
@@ -27,42 +27,41 @@ export default {
       logged: false
     }
   },
-  onShow(){
-    let that = this;
-    let userinfo = wx.getStorageSync('userinfo');
-    that.userinfo = userinfo;
-    that.logged = true;
-  },
+  // onShow(){
+  //   let that = this;
+  //   let userinfo = wx.getStorageSync('userinfo');
+  // //   //暂时写登录模块，这个logged不会变成true有毛病
+  //   that.userinfo = userinfo;
+  //   that.logged = true;
+  // },
   // 方法将被混入到 Vue 实例中。
   methods: {
     doLogin(){
       let self = this;
-      let user = wx.getStorageSync('userinfo');
-      if(!user){
         //查看是否授权
-        wx.getSetting({
-          success(res) {
-            if(res.authSetting['scope.userInfo'] === true){
-              // 已授权，直接通过nodejsSDK登录获取用户信息
-              qcloud.setLoginUrl(config.loginUrl);
-              qcloud.login({
-                success: function (res) {
-                  qcloud.request({
-                    login: true,
-                    url: config.userUrl,
-                    success: function (res) {
-                      showSuccess('登录成功');
-                      wx.setStorageSync('userinfo', res.data.data);
-                      self.logged = true;
-                      self.userinfo = res.data.data;
-                    }
-                  })
-                }
-              })
-            }
+      wx.getSetting({
+        success(res) {
+          if(res.authSetting['scope.userInfo'] === true){
+            // 已授权，直接通过nodejsSDK登录获取用户信息
+            qcloud.setLoginUrl(config.loginUrl);
+            qcloud.login({
+              success: function (res) {
+                qcloud.request({
+                  login: true,
+                  url: config.userUrl,
+                  success: function (res) {
+                    // console.log(res);
+                    showSuccess('登录成功');
+                    wx.setStorageSync('userinfo', res.data.data);
+                    self.logged = true;
+                    self.userinfo = res.data.data;
+                  }
+                })
+              }
+            })
           }
-        })
-      }
+        }
+      })
     },
     //增加书籍
     async addBook(isbn){
@@ -87,7 +86,6 @@ export default {
   // 被新创建方法替换，并挂载到实例上去之后调用该钩子。
   mounted () {
     this.doLogin();
-    this.canBook();
   }
 }
 </script>

@@ -23,12 +23,12 @@
     <div v-else class="text-footer">
       未登录或者已经评论过
     </div>
-    <button open-type="share" class="btn">转发给好友</button>
+    <button open-type="share" class="btn" >转发给好友</button>
   </div>
 </template>
 
 <script>
-import { get, post, showModal } from '@/utils/index'
+import { get, post, showModal, showSuccess } from '@/utils/index'
 import BookInfo from '@/components/BookInfo'
 import CommentList from '@/components/CommentList'
 
@@ -49,7 +49,26 @@ export default {
     }
   },
   onShareAppMessage(res){
-    console.log(res);
+    if(res.from === "button"){
+        // 来自页面内转发按钮
+        console.log(res.target)
+      }
+      return {
+        //这里的路径要这么写
+        title: this.info.title,
+        path: '/pages/detail/main?id=' + this.$root.$mp.query.id,
+        imageUrl: this.info.image,
+        success: function(res) {
+          console.log("转发成功:" + JSON.stringify(res));
+          //转发成功
+          showSuccess('转发成功')
+        },
+        fail: function (res) {
+          // 转发失败
+          console.log("转发失败:" + JSON.stringify(res));
+        }
+      }
+
   },
   //计算属性
   computed: {
