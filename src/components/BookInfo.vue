@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Rate from "@/components/Rate"
+import Rate from '@/components/Rate'
 
 export default {
   props: ['info'],
@@ -50,7 +50,7 @@ export default {
   },
   // 计算属性将被混入到 Vue 实例中
   computed: {
-    userinfo(){
+    userinfo () {
       return this.info.user_info || {}
     }
   }

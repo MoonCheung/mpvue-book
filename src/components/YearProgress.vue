@@ -8,35 +8,35 @@
 <script>
 export default {
   methods: {
-    isLeapYear(){
-      const year = new Date().getFullYear();
-      if(year%400 === 0){
+    isLeapYear () {
+      const year = new Date().getFullYear()
+      if (year % 400 === 0) {
         return true
-      }else if(year%4 === 0 && year%100 !== 0){
+      } else if (year % 4 === 0 && year % 100 !== 0) {
         return true
-      }else{
+      } else {
         return false
       }
     },
-    getDayOfYear(){
-      return this.isLeapYear()?366 : 365
+    getDayOfYear () {
+      return this.isLeapYear() ? 366 : 365
     }
   },
   computed: {
-    year(){
-      return new Date().getFullYear();
+    year () {
+      return new Date().getFullYear()
     },
-    days(){
-      let start = new Date();
+    days () {
+      let start = new Date()
       start.setMonth(0)
       start.setDate(1)
       // start就是今年第一天
-      let offset = new Date().getTime() - start.getTime();
-      return parseInt( offset/1000/60/60/24 )
+      let offset = new Date().getTime() - start.getTime()
+      return parseInt(offset / 1000 / 60 / 60 / 24)
     },
-    percent(){
+    percent () {
       // tofiexd:用来定点表示法来格式化一个数
-      return (this.days*100 / this.getDayOfYear()).toFixed(1);
+      return (this.days * 100 / this.getDayOfYear()).toFixed(1)
     }
   }
 }

@@ -43,15 +43,15 @@ export default {
   },
   props: ['book'],
   computed: {
-    detailUrl(){
-      return '/pages/detail/main?id='+this.book.id
+    detailUrl () {
+      return '/pages/detail/main?id=' + this.book.id
     }
   },
   methods: {
-    preview(){
+    preview () {
       wx.previewImage({
-        current: this.book.image,  // 当前显示图片的http链接
-        urls: [this.book.image]    // 需要预览的图片http链接列表
+        current: this.book.image, // 当前显示图片的http链接
+        urls: [this.book.image] // 需要预览的图片http链接列表
       })
     }
   }

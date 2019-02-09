@@ -36,14 +36,14 @@ export default {
   // },
   // 方法将被混入到 Vue 实例中。
   methods: {
-    doLogin(){
-      let self = this;
-        //查看是否授权
+    doLogin () {
+      let self = this
+      // 查看是否授权
       wx.getSetting({
-        success(res) {
-          if(res.authSetting['scope.userInfo'] === true){
+        success (res) {
+          if (res.authSetting['scope.userInfo'] === true) {
             // 已授权，直接通过nodejsSDK登录获取用户信息
-            qcloud.setLoginUrl(config.loginUrl);
+            qcloud.setLoginUrl(config.loginUrl)
             qcloud.login({
               success: function (res) {
                 qcloud.request({
@@ -51,10 +51,10 @@ export default {
                   url: config.userUrl,
                   success: function (res) {
                     // console.log(res);
-                    showSuccess('登录成功');
-                    wx.setStorageSync('userinfo', res.data.data);
-                    self.logged = true;
-                    self.userinfo = res.data.data;
+                    showSuccess('登录成功')
+                    wx.setStorageSync('userinfo', res.data.data)
+                    self.logged = true
+                    self.userinfo = res.data.data
                   }
                 })
               }
@@ -63,21 +63,21 @@ export default {
         }
       })
     },
-    //增加书籍
-    async addBook(isbn){
-      console.log(isbn);
+    // 增加书籍
+    async addBook (isbn) {
+      console.log(isbn)
       const res = await post('/api/addbook', {
         isbn,
         openid: this.userinfo.openId
       })
       showModal('添加成功', `${res.title}录入数据`)
     },
-    //扫描书籍条码
-    canBook(){
+    // 扫描书籍条码
+    canBook () {
       wx.scanCode({
         success: (res) => {
-          if(res.result){
-            this.addBook(res.result);
+          if (res.result) {
+            this.addBook(res.result)
           }
         }
       })
@@ -85,7 +85,7 @@ export default {
   },
   // 被新创建方法替换，并挂载到实例上去之后调用该钩子。
   mounted () {
-    this.doLogin();
+    this.doLogin()
   }
 }
 </script>

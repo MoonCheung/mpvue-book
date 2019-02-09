@@ -12,12 +12,12 @@
 export default {
   props: {
     value: {
-      type: [Number,String],
+      type: [Number, String],
       default: '0'
     }
   },
   computed: {
-    style() {
+    style () {
       return `width: ${this.value / 2}em`
     }
   }

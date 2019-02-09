@@ -20,7 +20,7 @@ export function formatTime (date) {
   return `${t1} ${t2}`
 }
 
-export function request (url, method, data, header={}) {
+export function request (url, method, data, header = {}) {
   return new Promise((resolve, reject) => {
     wx.request({
       data,
@@ -39,11 +39,11 @@ export function request (url, method, data, header={}) {
   })
 }
 
-export function get(url, data){
+export function get (url, data) {
   return request(url, 'GET', data)
 }
 
-export function post(url, data){
+export function post (url, data) {
   return request(url, 'POST', data)
 }
 
@@ -60,7 +60,6 @@ export function showSuccess (text) {
     icon: 'success'
   })
 }
-
 
 export default {
   formatNumber,

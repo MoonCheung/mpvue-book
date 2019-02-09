@@ -48,42 +48,41 @@ export default {
       phone: ''
     }
   },
-  onShareAppMessage(res){
-    if(res.from === "button"){
-        // 来自页面内转发按钮
-        console.log(res.target)
+  onShareAppMessage (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      // 这里的路径要这么写
+      title: this.info.title,
+      path: '/pages/detail/main?id=' + this.$root.$mp.query.id,
+      imageUrl: this.info.image,
+      success: function (res) {
+        console.log('转发成功:' + JSON.stringify(res))
+        // 转发成功
+        showSuccess('转发成功')
+      },
+      fail: function (res) {
+        // 转发失败
+        console.log('转发失败:' + JSON.stringify(res))
       }
-      return {
-        //这里的路径要这么写
-        title: this.info.title,
-        path: '/pages/detail/main?id=' + this.$root.$mp.query.id,
-        imageUrl: this.info.image,
-        success: function(res) {
-          console.log("转发成功:" + JSON.stringify(res));
-          //转发成功
-          showSuccess('转发成功')
-        },
-        fail: function (res) {
-          // 转发失败
-          console.log("转发失败:" + JSON.stringify(res));
-        }
-      }
-
+    }
   },
-  //计算属性
+  // 计算属性
   computed: {
-    showAdd(){
-      //没登录
-      if(!this.userinfo.openId) { return false; }
-      if(this.comments.filter(v => v.openid === this.userinfo.openId).length){
-        return false;
+    showAdd () {
+      // 没登录
+      if (!this.userinfo.openId) { return false }
+      if (this.comments.filter(v => v.openid === this.userinfo.openId).length) {
+        return false
       }
-      return true;
+      return true
     }
   },
   methods: {
-    async addComment(){
-      if(!this.comment) { return true; }
+    async addComment () {
+      if (!this.comment) { return true }
       const data = {
         openid: this.userinfo.openId,
         bookid: this.bookid,
@@ -91,32 +90,32 @@ export default {
         location: this.location,
         phone: this.phone
       }
-      console.log(data);
-      try{
-        await post('/api/addcomment', data);
-        this.comment = '' //空评论
+      console.log(data)
+      try {
+        await post('/api/addcomment', data)
+        this.comment = '' // 空评论
         this.getComments()
-      }catch(e){
+      } catch (e) {
         showModal('失败', e.msg)
       }
     },
-    async getComments(){
+    async getComments () {
       const comments = await get('/api/commentlist', {bookid: this.bookid})
-      this.comments = comments.list || [];
+      this.comments = comments.list || []
     },
-    async getDtail(){
+    async getDtail () {
       const info = await get('/api/bookdetail', {id: this.bookid})
       wx.setNavigationBarTitle({
         title: info.title
       })
       this.info = info
     },
-    getGeo(e){
-      const ak = "KIeNfIUwXbDSlLTTsEy187HeBrNuQ7fI"
-      let url = "http://api.map.baidu.com/geocoder/v2/"
-      if(e.target.value){
+    getGeo (e) {
+      const ak = 'KIeNfIUwXbDSlLTTsEy187HeBrNuQ7fI'
+      let url = 'http://api.map.baidu.com/geocoder/v2/'
+      if (e.target.value) {
         wx.getLocation({
-          success: geo =>{
+          success: geo => {
             wx.request({
               url,
               data: {
@@ -124,38 +123,40 @@ export default {
                 location: `${geo.latitude},${geo.longitude}`,
                 output: 'json'
               },
-              success: res =>{
-                if(res.data.status == 0){
+              success: res => {
+                if (res.data.status === 0) {
                   this.location = res.data.result.addressComponent.city
-                }else{
+                } else {
                   this.location = '未知地点'
                 }
               }
             })
           }
         })
-      }else{
-        //没选位置
+      } else {
+        // 没选位置
         this.location = ''
       }
     },
-    getPhone(e){
+    getPhone (e) {
       console.log('手机型号获取:')
-      if(e.target.value){
-        const getPhone = wx.getSystemInfoSync();
+      if (e.target.value) {
+        const getPhone = wx.getSystemInfoSync()
         this.phone = getPhone.model
-      }else{
-        //没选手机
-        this.phone = "";
+      } else {
+        // 没选手机
+        this.phone = ''
       }
     }
   },
   mounted () {
-    this.bookid = this.$root.$mp.query.id;
-    this.getDtail();
-    this.getComments();
-    const userinfo = wx.getStorageSync('userinfo');
-    if(userinfo){ return this.userinfo = userinfo; };
+    this.bookid = this.$root.$mp.query.id
+    this.getDtail()
+    this.getComments()
+    const userinfo = wx.getStorageSync('userinfo')
+    if (userinfo) {
+      return (this.userinfo = userinfo)
+    }
   }
 }
 </script>

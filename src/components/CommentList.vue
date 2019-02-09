@@ -27,12 +27,12 @@
 
 <script>
 export default {
-  props: ['comments','type'],
+  props: ['comments', 'type'],
   methods: {
-    handleClick(item){
-      if(this.type === 'user'){
+    handleClick (item) {
+      if (this.type === 'user') {
         wx.navigateTo({
-          url: '/pages/detail/main?id='+item.bookid
+          url: '/pages/detail/main?id=' + item.bookid
         })
       }
     }

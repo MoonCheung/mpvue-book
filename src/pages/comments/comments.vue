@@ -32,39 +32,39 @@ export default {
       books: []
     }
   },
-  onPullDownRefresh(){
-    this.init();
-    wx.stopPullDownRefresh();
+  onPullDownRefresh () {
+    this.init()
+    wx.stopPullDownRefresh()
   },
-  //方法将会被混入vue实例中
+  // 方法将会被混入vue实例中
   methods: {
-    init(){
-      wx.showNavigationBarLoading();
-      this.getComments();
-      this.getBooks();
-      wx.hideNavigationBarLoading();
+    init () {
+      wx.showNavigationBarLoading()
+      this.getComments()
+      this.getBooks()
+      wx.hideNavigationBarLoading()
     },
-    async getComments(){
-      const commentList = await get('/api/commentlist',{
+    async getComments () {
+      const commentList = await get('/api/commentlist', {
         openid: this.userinfo.openId
       })
-      console.log(commentList.list);
+      console.log(commentList.list)
       this.comments = commentList.list
     },
-    async getBooks(){
-      const book = await get('/api/booklist',{
+    async getBooks () {
+      const book = await get('/api/booklist', {
         openid: this.userinfo.openId
       })
-      this.books = book.list;
+      this.books = book.list
     }
   },
   // el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。
   mounted () {
-    if(!this.userinfo.openId){
+    if (!this.userinfo.openId) {
       let userinfo = wx.getStorageSync('userinfo')
-      if(userinfo) {
+      if (userinfo) {
         this.userinfo = userinfo
-        this.init();
+        this.init()
       }
     }
   }
