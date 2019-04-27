@@ -9,20 +9,14 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#EA5149",
     "navigationBarTitleText": "My图书馆",
-    "navigationBarTextStyle": "light",
+    "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true,
     "onReachBottomDistance": 50
-  },
-  "permission": {
-    "scope.userLocation": {
-      "desc": "你的位置信息将用于小程序位置接口的效果展示"
-    }
   },
   "tabBar": {
     "backgroundColor": "white",
     "borderStyle": "white",
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/books/main",
         "text": "图书",
         "iconPath": "static/images/book.png",
@@ -41,5 +35,10 @@
         "selectedIconPath": "static/images/me-active.png"
       }
     ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
   }
 }

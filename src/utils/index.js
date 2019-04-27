@@ -1,11 +1,13 @@
-import { config } from './config'
+import {
+  config
+} from './config'
 
-function formatNumber (n) {
+function formatNumber(n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
 }
 
-export function formatTime (date) {
+export function formatTime(date) {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -20,7 +22,7 @@ export function formatTime (date) {
   return `${t1} ${t2}`
 }
 
-export function request (url, method, data, header = {}) {
+export function request(url, method, data, header = {}) {
   return new Promise((resolve, reject) => {
     wx.request({
       data,
@@ -39,22 +41,22 @@ export function request (url, method, data, header = {}) {
   })
 }
 
-export function get (url, data) {
+export function get(url, data) {
   return request(url, 'GET', data)
 }
 
-export function post (url, data) {
+export function post(url, data) {
   return request(url, 'POST', data)
 }
 
-export function showModal (title, content) {
+export function showModal(title, content) {
   wx.showModal({
     title,
     content: JSON.stringify(content),
     showCancel: false
   })
 }
-export function showSuccess (text) {
+export function showSuccess(text) {
   wx.showToast({
     title: text,
     icon: 'success'
